@@ -1,3 +1,9 @@
+const bcrypt=require("bcrypt");
+const jwt=require("jsonwebtoken");
+const jsontoken = require('../middleware/auth2');
+// const secretkey=Process.env.SECRETKEY;
+const secretkey="authorization_API";
+
 let storedata=[]
 const register = (req,res)=>{
     const data=req.body;
@@ -12,34 +18,54 @@ const register = (req,res)=>{
         res.send({msg:"user already exists"})
     }
     else{
+        const salt=bcrypt.genSaltSync(10)
+        const hashpw=bcrypt.hashSync(data.pw,salt);
+        console.log({hashpw});
+
         const tempobj={
             name:data.name,
             email:data.email,
-            pw:data.pw
+            // pw:data.pw
+            pw:hashpw
         }
         storedata.push(tempobj);
         res.send(storedata);
+
+        console.log(data);
+
+        // const token=jwt.sign({user:"items.email"},secretkey);
+        // res.send({
+        //     msg:"user registered with token",
+        //     token:token
+        // })
+        // jsontoken(data,200,res);
     }
-    console.log("register Api");
 }
 
 const login=(req,res)=>{
     const data=req.body;
     // console.log(req.body);
-
-    const user=storedata.find((items)=>{
-        if(items.pw===data.pw && items.email===data.email){
-            return items;
+    storedata.find((items)=>{
+        if(items.email===data.email){
+            const valid=bcrypt.compareSync(data.pw,items.pw)
+            if(valid){
+                // const token=jwt.sign({user:"items.email"},secretkey,{expireIn:3600});
+                // res.send({
+                //     msg:"user logged in",
+                //     token:token
+                // });
+                jsontoken(items,200,res);
+            }
+            else{
+                res.send("user pw is wrong");
+                return;
+            }
         }
     })
-    
-    if(user){
-        res.send({msg:"Login successful"})
-    }
-    else{
-        res.send({msg:"please!! provide correct credentials"})
-    }
-    console.log("login api");
+    res.send({
+        // msg:"user pw/email is wrong "
+        msg:"user is not registered"
+    });
 }
 
 const aboutus=(req,res)=>{
