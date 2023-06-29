@@ -19,7 +19,7 @@ const register = (req,res)=>{
     }
     else{
         const salt=bcrypt.genSaltSync(10)
-        const hashpw=bcrypt.hashSync(data.pw,salt);
+        const hashpw=bcrypt.hashSync(data.password,salt);
         console.log({hashpw});
 
         const tempobj={
@@ -45,7 +45,7 @@ const login=(req,res)=>{
     // console.log(req.body);
     storedata.find((items)=>{
         if(items.email===data.email){
-            const valid=bcrypt.compareSync(data.pw,items.pw)
+            const valid=bcrypt.compareSync(data.password,items.pw)
             if(valid){
                 // const token=jwt.sign({user:"items.email"},secretkey,{expireIn:3600});
                 // res.send({
