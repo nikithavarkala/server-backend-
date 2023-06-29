@@ -4,10 +4,13 @@ const express = require("express");
 const userRoute=require('./Routes/userRoute');
 const jsontoken = require('./middleware/auth2');
 const bcrypt=require("bcrypt");
-
+const cors=require("cors");
 
 const app = express();
 
+app.use(cors({
+    origin:"*"
+}))
 app.use(express.json())
 
 // app.use(route);
