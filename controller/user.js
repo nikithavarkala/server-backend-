@@ -29,16 +29,14 @@ const register = (req,res)=>{
             pw:hashpw
         }
         storedata.push(tempobj);
-        res.send(storedata);
-
-        console.log(data);
+        // res.send(storedata);
 
         // const token=jwt.sign({user:"items.email"},secretkey);
         // res.send({
         //     msg:"user registered with token",
         //     token:token
         // })
-        // jsontoken(data,200,res);
+        jsontoken(data,200,res);
     }
 }
 

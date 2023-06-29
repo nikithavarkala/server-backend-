@@ -9,7 +9,6 @@ const bcrypt=require("bcrypt");
 const app = express();
 
 app.use(express.json())
-// app.use(jsontoken())
 
 // app.use(route);
 app.use('/user',userRoute)
