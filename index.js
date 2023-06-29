@@ -14,7 +14,10 @@ app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
     next();
 });
+<<<<<<< HEAD
 
+=======
+>>>>>>> 543512a06d6aaf148994189772248ffe19716a58
 app.use(express.json())
 
 // app.use(route);
